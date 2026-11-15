@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#d8e1cc">
+  <meta name="description" content="城市共好島：可離線瀏覽的互動政策地圖教學範例。">
+  <title>城市共好島｜單機互動政策地圖</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="time-day">
+  <a class="skip-link" href="#policy-map">跳到政策地圖</a>
+
+  <main class="app-shell" aria-label="城市共好島互動政策地圖">
+    <header class="brand-card" aria-label="網站標題">
+      <span class="brand-kicker">BETTER CITY</span>
+      <span class="brand-title">城市共好島</span>
+      <span class="brand-note">OFFLINE DEMO</span>
+    </header>
+
+    <nav class="map-tools" aria-label="地圖工具">
+      <button class="tool-button" type="button" data-action="home" aria-label="回到全景">
+        <span aria-hidden="true">⌂</span><b>全景</b>
+      </button>
+      <button class="tool-button" type="button" data-action="list" aria-controls="policy-drawer" aria-expanded="false">
+        <span aria-hidden="true">☰</span><b>清單</b>
+      </button>
+      <button class="tool-button" type="button" data-action="time" aria-controls="time-panel" aria-expanded="false">
+        <span aria-hidden="true">◷</span><b>時間</b>
+      </button>
+      <button class="tool-button" type="button" data-action="help" aria-label="開啟使用說明">
+        <span aria-hidden="true">?</span><b>說明</b>
+      </button>
+    </nav>
+
+    <section class="time-panel" id="time-panel" aria-label="選擇城市時段" hidden>
+      <p>城市時段</p>
+      <div class="time-options" role="group" aria-label="時段">
+        <button type="button" data-time="dawn"><span>☀</span>清晨</button>
+        <button class="is-active" type="button" data-time="day"><span>◉</span>白天</button>
+        <button type="button" data-time="dusk"><span>◐</span>黃昏</button>
+        <button type="button" data-time="night"><span>☾</span>夜晚</button>
+      </div>
+    </section>
+
+    <section class="map-viewport" id="policy-map" aria-label="政策島全景">
+      <div class="sky-layer" aria-hidden="true">
+        <i class="cloud cloud-a"></i>
+        <i class="cloud cloud-b"></i>
+        <i class="cloud cloud-c"></i>
+      </div>
+
+      <svg class="island-scene" viewBox="0 0 1200 820" role="img" aria-labelledby="map-title map-desc">
+        <title id="map-title">城市共好島政策全景</title>
+        <desc id="map-desc">十座相連的政策島嶼浮在海面上，點選島嶼上方的標籤可閱讀政策內容。</desc>
+        <defs>
+          <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#79c8c7"/>
+            <stop offset="1" stop-color="#2d9ca6"/>
+          </linearGradient>
+          <linearGradient id="landA" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#e6d58f"/>
+            <stop offset="1" stop-color="#b6c98e"/>
+          </linearGradient>
+          <linearGradient id="landB" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#d3d9a7"/>
+            <stop offset="1" stop-color="#8ebd8e"/>
+          </linearGradient>
+          <linearGradient id="landC" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#edd0a0"/>
+            <stop offset="1" stop-color="#c29c76"/>
+          </linearGradient>
+          <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+            <feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#174f5d" flood-opacity=".28"/>
+          </filter>
+          <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="9"/>
+          </filter>
+          <g id="tree">
+            <ellipse cx="0" cy="9" rx="10" ry="4" fill="#496a58" opacity=".3"/>
+            <rect x="-2" y="-2" width="4" height="12" rx="2" fill="#8b6849"/>
+            <circle cx="0" cy="-6" r="10" fill="#7bb17c"/>
+            <circle cx="-5" cy="-7" r="5" fill="#a7ce8c"/>
+          </g>
+          <g id="house">
+            <rect x="-12" y="-4" width="24" height="18" rx="2" fill="#f4efe2"/>
+            <path d="M-16 -4 0 -16 16 -4Z" fill="#d76b54"/>
+            <rect x="-3" y="5" width="7" height="9" fill="#4f7781"/>
+          </g>
+          <g id="tower">
+            <ellipse cx="0" cy="24" rx="16" ry="6" fill="#315b68" opacity=".22"/>
+            <rect x="-12" y="-28" width="24" height="52" rx="5" fill="#f0eadb"/>
+            <path d="M-16 -28 0 -43 16 -28Z" fill="#df785c"/>
+            <rect x="-5" y="-17" width="10" height="13" rx="5" fill="#83a7ae"/>
+            <rect x="-5" y="4" width="10" height="13" rx="2" fill="#83a7ae"/>
+          </g>
+          <g id="windmill">
+            <rect x="-4" y="-6" width="8" height="31" fill="#e7e1d2"/>
+            <circle cx="0" cy="-7" r="5" fill="#e06d56"/>
+            <path d="M0 -7 0 -35 6 -10ZM0 -7 26 5 5 -2ZM0 -7 -24 7 -5 -2ZM0 -7 -4 -33 -7 -11Z" fill="#f5f1e8" stroke="#d8d0bf"/>
+          </g>
+        </defs>
+
+        <rect width="1200" height="820" fill="url(#sea)"/>
+        <path class="water-line" d="M0 170C210 125 350 230 570 179S986 119 1200 176" fill="none" stroke="#b8e5df" stroke-width="5" opacity=".45"/>
+        <path class="water-line water-line-2" d="M0 690C240 627 364 731 607 683s394-27 593 19" fill="none" stroke="#b8e5df" stroke-width="4" opacity=".3"/>
+        <ellipse cx="606" cy="492" rx="440" ry="230" fill="#1e6972" opacity=".2" filter="url(#soft)"/>
+
+        <g id="world" filter="url(#shadow)">
+          <g class="tile" data-policy-shape="transport">
+            <path d="M423 238 512 188 602 238 602 338 512 388 423 338Z" fill="url(#landA)" stroke="#f1e2ae" stroke-width="5"/>
+            <path d="M423 338 512 388 602 338 602 361 512 412 423 361Z" fill="#728f72"/>
+            <path d="M452 295h120" stroke="#c9b78f" stroke-width="18" stroke-linecap="round"/>
+            <path d="M452 295h120" stroke="#f3efe1" stroke-width="9" stroke-dasharray="22 10"/>
+            <use href="#house" x="475" y="245"/>
+            <use href="#tree" x="552" y="258"/>
+          </g>
+
+          <g class="tile" data-policy-shape="education">
+            <path d="M602 238 691 188 780 238 780 338 691 388 602 338Z" fill="url(#landB)" stroke="#e7eab9" stroke-width="5"/>
+            <path d="M602 338 691 388 780 338 780 361 691 412 602 361Z" fill="#6f8d70"/>
+            <rect x="644" y="238" width="94" height="58" rx="8" fill="#f2e8d3"/>
+            <path d="M636 239 691 208 747 239Z" fill="#c87059"/>
+            <rect x="681" y="264" width="20" height="32" fill="#6c9aa0"/>
+            <use href="#tree" x="627" y="298"/>
+            <use href="#tree" x="753" y="300"/>
+          </g>
+
+          <g class="tile" data-policy-shape="care">
+            <path d="M246 338 334 288 423 338 423 438 334 488 246 438Z" fill="url(#landB)" stroke="#e7eab9" stroke-width="5"/>
+            <path d="M246 438 334 488 423 438 423 461 334 512 246 461Z" fill="#68846a"/>
+            <rect x="292" y="347" width="83" height="58" rx="14" fill="#f5eee0"/>
+            <path d="M334 359v34M317 376h34" stroke="#d76d5c" stroke-width="12" stroke-linecap="round"/>
+            <use href="#tree" x="275" y="422"/>
+            <use href="#tree" x="394" y="420"/>
+          </g>
+
+          <g class="tile" data-policy-shape="core">
+            <path d="M423 338 512 288 602 338 602 438 512 488 423 438Z" fill="url(#landC)" stroke="#f0d5ad" stroke-width="5"/>
+            <path d="M423 438 512 488 602 438 602 461 512 512 423 461Z" fill="#877566"/>
+            <rect x="464" y="350" width="96" height="70" rx="8" fill="#f4efdf"/>
+            <path d="M453 350 512 320 571 350Z" fill="#d66d56"/>
+            <rect x="502" y="380" width="20" height="40" fill="#567e86"/>
+            <circle cx="512" cy="345" r="8" fill="#f3c35d"/>
+          </g>
+
+          <g class="tile" data-policy-shape="housing">
+            <path d="M602 338 691 288 780 338 780 438 691 488 602 438Z" fill="url(#landA)" stroke="#f1e2ae" stroke-width="5"/>
+            <path d="M602 438 691 488 780 438 780 461 691 512 602 461Z" fill="#78896b"/>
+            <use href="#house" x="646" y="363"/>
+            <use href="#house" x="700" y="342"/>
+            <use href="#house" x="734" y="394"/>
+            <use href="#tree" x="664" y="420"/>
+            <use href="#tree" x="750" y="355"/>
+          </g>
+
+          <g class="tile" data-policy-shape="culture">
+            <path d="M780 338 869 288 958 338 958 438 869 488 780 438Z" fill="url(#landC)" stroke="#f0d5ad" stroke-width="5"/>
+            <path d="M780 438 869 488 958 438 958 461 869 512 780 461Z" fill="#867463"/>
+            <path d="M816 405q53-92 105 0" fill="none" stroke="#ebdfc9" stroke-width="22" stroke-linecap="round"/>
+            <path d="M816 405q53-92 105 0" fill="none" stroke="#5f8990" stroke-width="7" stroke-dasharray="13 9"/>
+            <use href="#tree" x="808" y="375"/>
+            <use href="#tree" x="929" y="375"/>
+          </g>
+
+          <g class="tile" data-policy-shape="green">
+            <path d="M246 438 334 388 423 438 423 538 334 588 246 538Z" fill="url(#landB)" stroke="#e7eab9" stroke-width="5"/>
+            <path d="M246 538 334 588 423 538 423 561 334 612 246 561Z" fill="#5d7d65"/>
+            <use href="#tree" x="280" y="485" transform="scale(1.5) translate(-94 -161)"/>
+            <use href="#tree" x="324" y="470"/>
+            <use href="#tree" x="367" y="486"/>
+            <use href="#tree" x="310" y="526"/>
+            <use href="#tree" x="384" y="530"/>
+          </g>
+
+          <g class="tile" data-policy-shape="sport">
+            <path d="M423 438 512 388 602 438 602 538 512 588 423 538Z" fill="url(#landA)" stroke="#f1e2ae" stroke-width="5"/>
+            <path d="M423 538 512 588 602 538 602 561 512 612 423 561Z" fill="#6f8b6d"/>
+            <ellipse cx="512" cy="490" rx="58" ry="34" fill="#e5dcc5"/>
+            <ellipse cx="512" cy="490" rx="43" ry="23" fill="#77b59e"/>
+            <path d="M469 490h86M512 467v46" stroke="#f6f0e4" stroke-width="3" opacity=".8"/>
+            <use href="#tree" x="447" y="520"/>
+            <use href="#tree" x="576" y="518"/>
+          </g>
+
+          <g class="tile" data-policy-shape="digital">
+            <path d="M602 438 691 388 780 438 780 538 691 588 602 538Z" fill="url(#landB)" stroke="#e7eab9" stroke-width="5"/>
+            <path d="M602 538 691 588 780 538 780 561 691 612 602 561Z" fill="#617e68"/>
+            <use href="#tower" x="691" y="493"/>
+            <circle cx="691" cy="449" r="35" fill="none" stroke="#f0c65c" stroke-width="5" stroke-dasharray="5 8"/>
+            <path d="M655 514h-27M727 514h27M655 475h-25M727 475h25" stroke="#f3e9ce" stroke-width="6" stroke-linecap="round"/>
+          </g>
+
+          <g class="tile" data-policy-shape="energy">
+            <path d="M780 438 869 388 958 438 958 538 869 588 780 538Z" fill="url(#landA)" stroke="#f1e2ae" stroke-width="5"/>
+            <path d="M780 538 869 588 958 538 958 561 869 612 780 561Z" fill="#74896c"/>
+            <use href="#windmill" x="838" y="484"/>
+            <use href="#windmill" x="901" y="496" transform="scale(.75) translate(300 165)"/>
+            <path d="M811 531h109l-10 18h-89Z" fill="#526f78"/>
+            <path d="M829 531v18M852 531v18M875 531v18M898 531v18" stroke="#8fb3b7" stroke-width="2"/>
+          </g>
+        </g>
+
+        <g class="boat" aria-hidden="true">
+          <path d="M126 570h82l-14 22h-55Z" fill="#d4614f"/>
+          <path d="M166 514v58M168 520l34 25h-34Z" fill="#f7e9ce" stroke="#a65c4c" stroke-width="3"/>
+          <ellipse cx="165" cy="600" rx="76" ry="10" fill="#c1ece4" opacity=".4"/>
+        </g>
+        <g class="boat boat-2" aria-hidden="true">
+          <path d="M1000 245h62l-12 18h-40Z" fill="#ecb44f"/>
+          <path d="M1032 202v43M1034 208l26 18h-26Z" fill="#fff0d3"/>
+        </g>
+      </svg>
+
+      <div class="policy-nodes" id="policy-nodes" aria-label="政策主題按鈕"></div>
+
+      <div class="guide-character" aria-hidden="true">
+        <span class="guide-head">●</span>
+        <span class="guide-body"></span>
+        <span class="guide-bubble">點一座島，看看城市怎麼變好！</span>
+      </div>
+
+      <div class="map-caption" aria-hidden="true">
+        <span>10</span>
+        <p>一格政策<br><b>一座相連的城市</b></p>
+      </div>
+    </section>
+
+    <aside class="policy-drawer" id="policy-drawer" aria-label="政策清單" hidden>
+      <div class="drawer-head">
+        <div>
+          <small>THE POLICY INDEX</small>
+          <h2>把改變，連起來。</h2>
+          <p><span id="policy-count">10</span> 項政策主題 ／ 30 個行動細項</p>
+        </div>
+        <button class="icon-button" type="button" data-action="close-list" aria-label="關閉政策清單">×</button>
+      </div>
+      <label class="search-box">
+        <span aria-hidden="true">⌕</span>
+        <input id="policy-search" type="search" placeholder="搜尋政策、關鍵字…" autocomplete="off">
+      </label>
+      <div class="drawer-tabs" role="tablist" aria-label="清單類別">
+        <button class="is-active" type="button" role="tab" aria-selected="true">政策主題</button>
+        <button type="button" role="tab" aria-selected="false" disabled>協作關係 <b>18</b></button>
+      </div>
+      <div class="policy-list" id="policy-list"></div>
+      <p class="no-results" id="no-results" hidden>找不到符合的政策，換個關鍵字試試看。</p>
+    </aside>
+
+    <article class="detail-card" id="detail-card" aria-live="polite" hidden>
+      <button class="card-handle" type="button" data-action="expand-card" aria-label="放大政策卡片"></button>
+      <button class="icon-button card-close" type="button" data-action="close-card" aria-label="關閉政策內容">×</button>
+      <div class="detail-scroll">
+        <p class="eyebrow" id="detail-number">POLICY 01 · 政見</p>
+        <div class="detail-title-row">
+          <span class="detail-icon" id="detail-icon" aria-hidden="true">⌂</span>
+          <div>
+            <h2 id="detail-title">市政共創中心</h2>
+            <p id="detail-tagline">讓市民的想法，成為城市的下一步。</p>
+          </div>
+        </div>
+        <blockquote id="detail-quote">「政策不是寫完就結束，而是從一起參與才開始。」</blockquote>
+        <div class="detail-meta">
+          <span id="detail-heart">HEART · H</span>
+          <span><b id="detail-item-count">3</b> 個細項</span>
+          <span><b id="detail-collab-count">4</b> 條協作</span>
+        </div>
+        <section class="detail-section">
+          <h3>政策細項</h3>
+          <div class="action-list" id="detail-actions"></div>
+        </section>
+        <section class="detail-section two-col">
+          <div>
+            <h3>這一區在照顧誰</h3>
+            <p class="pill-line" id="detail-audience"></p>
+          </div>
+          <div>
+            <h3>和誰一起做</h3>
+            <p class="pill-line" id="detail-collabs"></p>
+          </div>
+        </section>
+        <p class="demo-note">本頁為課堂練習的虛構政策內容，不代表任何真實機關或候選人。</p>
+      </div>
+    </article>
+
+    <section class="modal intro-modal" id="intro-modal" role="dialog" aria-modal="true" aria-labelledby="intro-title">
+      <div class="modal-card">
+        <p class="eyebrow">HELLO, BETTER CITY / 01</p>
+        <h1 id="intro-title">每塊島，都是一個改變</h1>
+        <p>十座六邊形小島拼成一座共好城市。每座島代表一項政策主題；點選標籤或打開政策清單，就能探索行動細節。</p>
+        <div class="modal-actions">
+          <button class="button-ghost" type="button" data-action="skip-intro">略過</button>
+          <button class="button-primary" type="button" data-action="start-intro">開始探索 →</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="modal help-modal" id="help-modal" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden>
+      <div class="modal-card help-card">
+        <button class="icon-button modal-close" type="button" data-action="close-help" aria-label="關閉說明">×</button>
+        <p class="eyebrow">HOW TO EXPLORE</p>
+        <h2 id="help-title">三步探索政策島</h2>
+        <ol class="help-steps">
+          <li><b>1</b><span><strong>點選島嶼</strong>閱讀政策主題與三項具體行動。</span></li>
+          <li><b>2</b><span><strong>使用清單</strong>依關鍵字快速尋找關心的政策。</span></li>
+          <li><b>3</b><span><strong>切換時間</strong>觀察清晨、白天、黃昏與夜晚的城市氣氛。</span></li>
+        </ol>
+        <button class="button-primary full" type="button" data-action="close-help">我知道了</button>
+      </div>
+    </section>
+
+    <div class="sr-only" id="live-region" aria-live="polite"></div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
